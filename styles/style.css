@@ -1006,22 +1006,20 @@ body {
 }
 
 /* ========================================================
-   MOBILE ALIGNMENT FIXES (PLAY BUTTON, EDITION PILL, ARROWS)
+   MOBILE ALIGNMENT FIXES (VIDEO FIT, META DOTS, BUTTONS)
    ======================================================== */
 
-/* 1. Video Play Button: oval aagama perfect circle-aa irukka */
 .play-ring {
   flex-shrink: 0;
   aspect-ratio: 1 / 1;
   padding: 0;
-  padding-left: 3px; /* ▶ icon visual center-kku */
+  padding-left: 3px;
   line-height: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
 }
 
-/* 2. Edition Pill & Live Dot: dot squish aagama, text clean-aa irukka */
 .edition-pill {
   max-width: 100%;
   justify-content: center;
@@ -1034,7 +1032,6 @@ body {
   aspect-ratio: 1 / 1;
 }
 
-/* 3. Secrets Left/Right Arrows: exact center alignment */
 .stage-arrow {
   display: inline-flex;
   align-items: center;
@@ -1045,7 +1042,6 @@ body {
   aspect-ratio: 1 / 1;
 }
 
-/* Mobile-kku mattum size & spacing adjust */
 @media (max-width: 600px) {
   .edition-pill {
     font-size: 0.64rem;
@@ -1054,8 +1050,41 @@ body {
     gap: 0.45rem;
   }
 
+  /* Match both hero buttons to the same clean width */
+  .hero-actions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .hero-actions .btn-primary,
+  .hero-actions .btn-ghost {
+    width: 100%;
+    max-width: 260px;
+    justify-content: center;
+  }
+
+  /* Hide dangling dots when meta items wrap on mobile */
+  .hero-meta-row {
+    gap: 0.5rem 1rem;
+  }
+
+  .hero-meta-row .dot {
+    display: none;
+  }
+
+  /* Keep video card strictly centered inside the screen */
+  .hero-video-wrap {
+    width: 100%;
+    overflow: hidden;
+    border-radius: 22px;
+  }
+
   .hero-video-card {
-    min-height: 210px;
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 16 / 10;
+    min-height: 0;
+    border-radius: 22px;
   }
 
   .media-placeholder {
