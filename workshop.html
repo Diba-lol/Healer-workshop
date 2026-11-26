@@ -13,7 +13,9 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
     rel="stylesheet" />
-  <link rel="stylesheet" href="styles/style.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/workshop.css" />
+  <link rel="stylesheet" href="styles/responsive.css" />
 </head>
 
 <body data-page="workshop">
@@ -166,8 +168,18 @@
           <div class="stage-top-bar">
             <span id="stageDayBadge" class="stage-badge">DAY 01 OF 10</span>
             <div class="stage-nav-btns">
-              <button type="button" id="prevDayBtn" class="stage-arrow" aria-label="Previous day">←</button>
-              <button type="button" id="nextDayBtn" class="stage-arrow" aria-label="Next day">→</button>
+              <button type="button" id="prevDayBtn" class="stage-arrow" aria-label="Previous day">
+                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                  <line x1="19" y1="12" x2="5" y2="12"></line>
+                  <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+              </button>
+              <button type="button" id="nextDayBtn" class="stage-arrow" aria-label="Next day">
+                <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
             </div>
           </div>
 
