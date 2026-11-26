@@ -1,5 +1,5 @@
 // ========================================================
-// HEALER – 5-AUDIENCE CONTENT CONFIG (EDITABLE PLACEHOLDERS)
+// HEALER – 5-AUDIENCE CONTENT CONFIG (SEO & OUTCOME UPDATED)
 // ========================================================
 
 const WORKSHOP_CONFIG = {
@@ -35,10 +35,10 @@ const AUDIENCES_DATA = {
   students: {
     key: "students",
     label: "Students",
-    pageTitle: "Healer | Career Clarity Masterclass for Students",
-    heroBadge: "FREE LIFE PURPOSE & CAREER CLARITY MASTERCLASS",
-    heroTitle: 'Confused About Which <span class="text-gradient">Career to Choose?</span>',
-    heroSubtitle: "Discover your natural talents, life purpose and right career direction before spending years pursuing a path that may not suit you.",
+    pageTitle: "Career Clarity Workshop for Students | Find Your No. 1 Career in 10 Days – Healer",
+    heroBadge: "FREE LIFE PURPOSE & CAREER CLARITY WORKSHOP · STUDENTS",
+    heroTitle: 'Confused About Your Career? Find Your <span class="text-gradient">No. 1 Career Choice in 10 Days.</span>',
+    heroSubtitle: "Go from career confusion to a purpose- and passion-aligned career roadmap—discover your natural strengths through psychometric assessment before choosing the wrong degree.",
     heroCta: "Discover My Right Career – Register Free",
     painPoints: [
       "You are unsure which degree or career to pursue.",
@@ -80,10 +80,10 @@ const AUDIENCES_DATA = {
   professionals: {
     key: "professionals",
     label: "Working Professionals",
-    pageTitle: "Healer | Career Clarity Masterclass for Working Professionals",
-    heroBadge: "FREE LIFE PURPOSE & CAREER CLARITY MASTERCLASS",
-    heroTitle: 'Good Salary. Secure Job. <span class="text-gradient">Still Unhappy?</span>',
-    heroSubtitle: "Discover your life purpose and learn how to find a career you genuinely love without blindly quitting your current job or risking your financial security.",
+    pageTitle: "Career Clarity Workshop for Working Professionals | Mid-Career Transition – Healer",
+    heroBadge: "FREE LIFE PURPOSE & CAREER CLARITY WORKSHOP · PROFESSIONALS",
+    heroTitle: 'Good Salary, Still Unhappy? Find Your <span class="text-gradient">Purpose-Aligned Career in 10 Days.</span>',
+    heroSubtitle: "Go from career confusion to discovering your passion-aligned No. 1 career choice and practical transition roadmap—without blindly quitting your job.",
     heroCta: "Find My Fulfilling Career – Register Free",
     painPoints: [
       "You earn well but feel unhappy or empty at work.",
@@ -128,10 +128,10 @@ const AUDIENCES_DATA = {
   homemakers: {
     key: "homemakers",
     label: "Homemakers",
-    pageTitle: "Healer | Career Clarity Masterclass for Homemakers",
-    heroBadge: "FREE LIFE PURPOSE & CAREER CLARITY MASTERCLASS",
-    heroTitle: 'You Have Taken Care of Everyone. Now <span class="text-gradient">Rediscover Yourself.</span>',
-    heroSubtitle: "Rediscover your natural talents, life purpose and a meaningful career direction for the next chapter of your life.",
+    pageTitle: "Career Restart & Clarity Workshop for Homemakers | 10-Day Blueprint – Healer",
+    heroBadge: "FREE LIFE PURPOSE & CAREER CLARITY WORKSHOP · HOMEMAKERS",
+    heroTitle: 'Rediscover Yourself & Find Your <span class="text-gradient">No. 1 Career Direction in 10 Days.</span>',
+    heroSubtitle: "Go from self-doubt after a career break to discovering your natural talents, life purpose, and a passion-aligned career roadmap that fits your life.",
     heroCta: "Rediscover My Potential – Register Free",
     painPoints: [
       "You have spent years caring for your family and want to explore your own aspirations.",
@@ -173,10 +173,10 @@ const AUDIENCES_DATA = {
   parents: {
     key: "parents",
     label: "Parents",
-    pageTitle: "Healer | Career Clarity Masterclass for Parents",
-    heroBadge: "FREE LIFE PURPOSE & CAREER CLARITY MASTERCLASS FOR PARENTS",
-    heroTitle: 'Worried About Your <span class="text-gradient">Child\'s Future</span> & Career Choice?',
-    heroSubtitle: "Help your child discover their natural talents, life purpose and No. 1 career choice before investing years and lakhs of rupees in an unsuitable career path.",
+    pageTitle: "Career Guidance Workshop for Parents | Help Your Child Choose the Right Career – Healer",
+    heroBadge: "FREE LIFE PURPOSE & CAREER CLARITY WORKSHOP · PARENTS",
+    heroTitle: 'Help Your Child Discover Their <span class="text-gradient">No. 1 Career Choice in 10 Days.</span>',
+    heroSubtitle: "Move from career confusion to a clear, psychometric-backed career roadmap before investing years and lakhs in the wrong degree.",
     heroCta: "Reserve My Free Masterclass Seat",
     painPoints: [
       "Your child does not know what they want to do in life.",
@@ -203,7 +203,7 @@ const AUDIENCES_DATA = {
       "A personalised career blueprint and roadmap."
     ],
     outcomesNote: "Attend the free masterclass to discover the framework and learn how to enrol your child in the optional paid 10-Day Challenge.",
-    differentText: "Rather than relying on a single aptitude test or a list of career recommendations, the Life Purpose & Career Blueprint™ brings together multiple layers of self-discovery. Help your child understand why a career may be right for them, not just which career to choose.",
+    differentText: "Rather than relying on a single aptitude test or a list of recommendations, the Life Purpose & Career Blueprint™ brings together multiple layers of self-discovery. Help your child understand why a career may be right for them, not just which career to choose.",
     whoShouldAttend: "Parents of school and college students aged 15–22 who are unsure about their future, have multiple interests or need more exposure to career possibilities.",
     testimonialsSub: "From feeling lost and unaware of their talents to discovering meaningful goals and gaining clarity about their future.",
     faqs: [
@@ -220,10 +220,10 @@ const AUDIENCES_DATA = {
   retired: {
     key: "retired",
     label: "Retired / Senior Citizens",
-    pageTitle: "Healer | Life Purpose Masterclass for Retired Professionals",
-    heroBadge: "FREE LIFE PURPOSE & CAREER CLARITY MASTERCLASS",
-    heroTitle: 'You\'ve Retired From Your Job. <span class="text-gradient">Not From Your Purpose.</span>',
-    heroSubtitle: "Discover your untapped potential and create a meaningful, fulfilling next chapter—explore interests, mentoring, volunteering, entrepreneurship or pursuits that matter to you.",
+    pageTitle: "Life Purpose Workshop After Retirement | Design Your Next Chapter in 10 Days – Healer",
+    heroBadge: "FREE LIFE PURPOSE & CAREER CLARITY WORKSHOP · RETIRED",
+    heroTitle: 'Retired From Your Job, Not Your Purpose. <span class="text-gradient">Clarity in 10 Days.</span>',
+    heroSubtitle: "Discover your untapped strengths and build a purpose-aligned roadmap for your next chapter—mentoring, volunteering, entrepreneurship, or meaningful pursuits.",
     heroCta: "Discover My Next Chapter – Register Free",
     painPoints: [
       "You miss the sense of direction your work once gave you.",
