@@ -286,8 +286,11 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   /* ------------------------------------------------------
-     7. REGISTRATION MODAL
+     7. REGISTRATION MODAL (SAVES TO GOOGLE SHEETS)
      ------------------------------------------------------ */
+  const REGISTER_ENDPOINT =
+    "https://script.google.com/macros/s/AKfycbyLafruO_8zEYpjBYTjh5jnh5XKXZPptM47FQ49ivDBRiw-9wT21paNbZ0qvZ61Xn8x/exec";
+
   const modal = document.getElementById("registerModal");
   const closeBtn = document.getElementById("closeModalBtn");
   const form = document.getElementById("registerForm");
@@ -323,11 +326,43 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.key === "Escape" && modal?.classList.contains("is-open")) closeRegModal();
   });
 
-  form?.addEventListener("submit", (e) => {
+  form?.addEventListener("submit", async (e) => {
     e.preventDefault();
-    if (successBox) {
-      form.hidden = true;
-      successBox.hidden = false;
+
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const formData = new FormData(form);
+    const payload = {
+      name: (formData.get("name") || "").toString().trim(),
+      email: (formData.get("email") || "").toString().trim(),
+      phone: (formData.get("phone") || "").toString().trim(),
+      audience: audienceKey,
+      pageUrl: window.location.href
+    };
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Reserving Seat...";
+    }
+
+    try {
+      await fetch(REGISTER_ENDPOINT, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify(payload)
+      });
+
+      if (successBox) {
+        form.hidden = true;
+        successBox.hidden = false;
+      }
+    } catch (err) {
+      alert("Could not submit right now. Please try again in a moment.");
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Confirm Free Seat";
+      }
     }
   });
 
