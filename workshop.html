@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Healer | FREE Life Purpose & Career Clarity Masterclass</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="styles/style.css" />
+</head>
+
+<body data-page="workshop">
+  <!-- LIVE READING PROGRESS BAR -->
+  <div id="scrollProgress" class="scroll-progress" aria-hidden="true"></div>
+
+  <!-- FLOATING GLASS NAVBAR -->
+  <nav class="top-nav">
+    <div class="container nav-inner">
+      <a href="index.html" class="brand-logo">
+        <img src="assests/healer-logo.webp" alt="Healer Logo" class="brand-logo-img" />
+        <span><strong>Healer</strong></span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#discoveries">Discoveries</a>
+        <a href="#challenge">10-Day Blueprint</a>
+        <a href="#coach">Coach</a>
+        <a href="#faq">FAQ</a>
+      </div>
+
+      <div class="nav-right-group">
+        <a href="index.html" class="change-path-link" title="Switch audience path">⇄ Change Path</a>
+        <button type="button" class="btn-nav open-register-modal">Register Free</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========================================================
+       01. HERO SECTION
+       ======================================================== -->
+  <header class="hero-center container">
+    <div class="edition-pill reveal">
+      <span class="live-dot"></span>
+      <span id="heroBadge">FREE LIFE PURPOSE &amp; CAREER CLARITY MASTERCLASS</span>
+    </div>
+
+    <h1 id="heroTitle" class="hero-title reveal"></h1>
+    <p id="heroSubtitle" class="hero-subtitle reveal"></p>
+
+    <p class="hero-coach-line reveal">
+      With <strong>Soundharya Mira</strong> · Life Purpose &amp; Career Coach
+    </p>
+
+    <div class="hero-actions reveal">
+      <button type="button" id="heroCtaBtn" class="btn-primary open-register-modal"></button>
+      <a href="#challenge" class="btn-ghost">See 10-Day Blueprint</a>
+    </div>
+
+    <div class="hero-meta-row reveal">
+      <span class="meta-chip">
+        <svg class="meta-svg" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+        <strong id="metaDate">[Date]</strong>
+      </span>
+      <span class="dot">•</span>
+      <span class="meta-chip">
+        <svg class="meta-svg" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" />
+          <polyline points="12 7 12 12 15.5 14" />
+        </svg>
+        <strong id="metaTime">[Time]</strong>
+      </span>
+      <span class="dot">•</span>
+      <span class="meta-chip">
+        <svg class="meta-svg" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="13" r="8" />
+          <path d="M12 9v4l2 2" />
+          <path d="M9 2h6" />
+        </svg>
+        <strong id="metaDuration">[Duration]</strong>
+      </span>
+      <span class="dot">•</span>
+      <span class="meta-chip">
+        <svg class="meta-svg" viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="2" y="4" width="20" height="14" rx="2" />
+          <line x1="8" y1="21" x2="16" y2="21" />
+          <line x1="12" y1="18" x2="12" y2="21" />
+        </svg>
+        <strong>Online</strong>
+      </span>
+    </div>
+
+    <!-- HERO VIDEO / BANNER -->
+    <div class="hero-video-wrap reveal">
+      <div class="video-aura" aria-hidden="true"></div>
+      <div class="hero-video-card">
+        <img src="assets/hero-banner.jpg" alt="Healer Masterclass Preview" class="hero-media-img"
+          onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+        <div class="media-placeholder" style="display: none;">
+          <button type="button" class="play-ring open-register-modal" aria-label="Watch preview">▶</button>
+          <p>Add masterclass intro video or thumbnail at <code>assets/hero-banner.jpg</code></p>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- ========================================================
+         02. IS THIS YOU?
+         ======================================================== -->
+    <section id="isThisYou" class="container section-block">
+      <div class="section-head reveal">
+        <span class="kicker-tag">Is This You?</span>
+        <h2 class="section-title">Does any of this sound <span class="text-gradient">familiar?</span></h2>
+      </div>
+
+      <div class="pain-points-card reveal">
+        <ul id="painPointsList" class="pain-points-list"></ul>
+        <p id="painPointsClosing" class="pain-closing"></p>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         03. THREE POWERFUL DISCOVERIES
+         ======================================================== -->
+    <section id="discoveries" class="container section-block">
+      <div class="section-head reveal">
+        <span class="kicker-tag">Inside The Masterclass</span>
+        <h2 class="section-title">Three Powerful <span class="text-gradient">Discoveries</span></h2>
+        <p class="section-desc">A structured shift from confusion to clarity—grounded in who you truly are.</p>
+      </div>
+
+      <div id="discoveriesGrid" class="art-cards-grid"></div>
+
+      <div class="center-cta-row reveal">
+        <button type="button" class="btn-primary open-register-modal">Reserve My Free Masterclass Seat</button>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         04. 10-DAY LIFE PURPOSE & CAREER BLUEPRINT™ CHALLENGE
+         ======================================================== -->
+    <section id="challenge" class="container section-block">
+      <div class="section-head reveal">
+        <span class="kicker-tag">The Complete Journey</span>
+        <h2 class="section-title">10-Day Life Purpose &amp; <span class="text-gradient">Career Blueprint™</span>
+          Challenge</h2>
+        <p id="challengeSub" class="section-desc"></p>
+      </div>
+
+      <div class="secrets-vault reveal">
+        <div id="dayPillsGrid" class="secret-pills-grid" role="tablist" aria-label="10-Day Challenge Breakdown"></div>
+
+        <div class="secret-stage" aria-live="polite">
+          <div class="stage-top-bar">
+            <span id="stageDayBadge" class="stage-badge">DAY 01 OF 10</span>
+            <div class="stage-nav-btns">
+              <button type="button" id="prevDayBtn" class="stage-arrow" aria-label="Previous day">←</button>
+              <button type="button" id="nextDayBtn" class="stage-arrow" aria-label="Next day">→</button>
+            </div>
+          </div>
+
+          <div id="stageContent" class="stage-content">
+            <span id="stagePhase" class="stage-tag"></span>
+            <h3 id="stageTitle" class="stage-title"></h3>
+            <p id="stageDesc" class="stage-desc"></p>
+          </div>
+
+          <div class="stage-footer">
+            <div class="stage-progress-track">
+              <span id="stageProgressFill" class="stage-progress-fill"></span>
+            </div>
+            <button type="button" class="stage-cta-link open-register-modal">Join Free Masterclass →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         05. WHAT YOU WILL WORK TOWARDS + 06. WHY IT'S DIFFERENT
+         ======================================================== -->
+    <section class="container section-block">
+      <div class="outcomes-split reveal">
+        <div class="outcomes-box">
+          <span class="kicker-tag">Your Outcomes</span>
+          <h2 id="outcomesHeading" class="section-title left-title">What You Will Work Towards</h2>
+          <ul id="outcomesList" class="outcomes-list"></ul>
+          <p id="outcomesNote" class="outcomes-note"></p>
+          <button type="button" class="btn-primary open-register-modal">Reserve My Free Masterclass Seat</button>
+        </div>
+
+        <div class="different-box">
+          <span class="kicker-tag kicker-dark">Why This Is Different</span>
+          <h3>Beyond a Single Career Test</h3>
+          <p id="differentText"></p>
+
+          <div class="who-box">
+            <span class="who-label">Who Should Attend?</span>
+            <p id="whoShouldAttend"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         07. REAL PEOPLE. REAL TRANSFORMATIONS.
+         ======================================================== -->
+    <section id="testimonials" class="container section-block">
+      <div class="section-head reveal">
+        <span class="kicker-tag">100+ Individuals Coached</span>
+        <h2 class="section-title">Real People. <span class="text-gradient">Real Transformations.</span></h2>
+        <p id="testimonialsSub" class="section-desc"></p>
+      </div>
+
+      <div class="testimonials-grid reveal">
+        <article class="video-testimonial-card">
+          <div class="testimonial-thumb">
+            <button type="button" class="play-ring small-play" aria-label="Play testimonial 1">▶</button>
+          </div>
+          <div class="testimonial-caption">
+            <strong>Participant Story 01</strong>
+            <span>Replace with approved audience-relevant video testimonial</span>
+          </div>
+        </article>
+
+        <article class="video-testimonial-card">
+          <div class="testimonial-thumb">
+            <button type="button" class="play-ring small-play" aria-label="Play testimonial 2">▶</button>
+          </div>
+          <div class="testimonial-caption">
+            <strong>Participant Story 02</strong>
+            <span>Replace with approved audience-relevant video testimonial</span>
+          </div>
+        </article>
+
+        <article class="video-testimonial-card">
+          <div class="testimonial-thumb">
+            <button type="button" class="play-ring small-play" aria-label="Play testimonial 3">▶</button>
+          </div>
+          <div class="testimonial-caption">
+            <strong>Participant Story 03</strong>
+            <span>Replace with approved audience-relevant video testimonial</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         08. MEET YOUR COACH (SOUNDHARYA MIRA)
+         ======================================================== -->
+    <section id="coach" class="container section-block">
+      <div class="mentor-card reveal">
+        <div class="mentor-photo-col">
+          <div class="mentor-avatar-ring">
+            <img src="assets/host-photo.jpg" alt="Soundharya Mira - Founder & CEO of Healer" class="mentor-img"
+              onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';" />
+            <div class="avatar-placeholder" style="display: none;">SM</div>
+          </div>
+        </div>
+
+        <div class="mentor-copy">
+          <span class="kicker-tag kicker-dark">Meet Your Coach</span>
+          <h2 class="mentor-title">Soundharya <span class="text-gradient">Mira</span></h2>
+          <p class="mentor-role">Life Purpose &amp; Career Coach · Entrepreneur · Founder &amp; CEO of Healer</p>
+          <p>
+            Having experienced career confusion herself, Soundharya moved from biotechnology and cardiovascular research
+            to entrepreneurship and coaching. Her self-discovery journey inspired her to help others discover who they
+            truly are and build a meaningful career.
+          </p>
+
+          <div class="credentials-pills">
+            <span>100+ Individuals Coached</span>
+            <span>3 Years Coaching Experience</span>
+            <span>M.Tech Integrated Biotechnology</span>
+            <span>SPARSH SIIP Fellow</span>
+            <span>Founder &amp; CEO, AstralBeat Innovations</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         10. FREQUENTLY ASKED QUESTIONS
+         ======================================================== -->
+    <section id="faq" class="container section-block">
+      <div class="section-head reveal">
+        <span class="kicker-tag">Questions Answered</span>
+        <h2 class="section-title">Frequently Asked <span class="text-gradient">Questions</span></h2>
+      </div>
+
+      <div id="faqList" class="faq-list reveal"></div>
+    </section>
+
+    <!-- ========================================================
+         11. FINAL CALL TO ACTION
+         ======================================================== -->
+    <section class="container section-block final-section">
+      <div class="final-cta-banner reveal">
+        <span class="kicker-tag">Free Live Masterclass</span>
+        <h2 id="finalCtaHeading"></h2>
+        <p id="finalCtaSub"></p>
+        <button type="button" id="finalCtaBtn" class="btn-primary open-register-modal">Reserve My Free Seat Now</button>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER WITH POLICIES -->
+  <footer class="site-footer container">
+    <div class="footer-links">
+      <a href="#privacy">Privacy Policy</a>
+      <span>·</span>
+      <a href="#terms">Terms of Service</a>
+      <span>·</span>
+      <a href="#refund">Refund Policy</a>
+      <span>·</span>
+      <a href="mailto:support@healer.in">Contact Support</a>
+    </div>
+    <p>© 2026 Healer. All rights reserved.</p>
+  </footer>
+
+  <!-- STICKY MOBILE CTA BAR -->
+  <div class="mobile-sticky-cta">
+    <button type="button" class="btn-primary full-width open-register-modal">Reserve My Free Seat Now</button>
+  </div>
+
+  <!-- ========================================================
+       REGISTRATION MODAL (WITH CONSENT & GUARDIAN SUPPORT)
+       ======================================================== -->
+  <div id="registerModal" class="modal-overlay" aria-hidden="true">
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <button type="button" class="modal-close" id="closeModalBtn" aria-label="Close modal">✕</button>
+      <span id="modalAudienceTag" class="kicker-tag">Free Masterclass</span>
+      <h3 id="modalTitle" class="modal-title">Reserve Your Free Seat</h3>
+      <p class="modal-desc">Enter your details to receive your joining link and session reminders.</p>
+
+      <form id="registerForm" class="register-form">
+        <label>
+          <span id="nameFieldLabel">Full Name</span>
+          <input type="text" name="name" placeholder="Enter your full name" required />
+        </label>
+
+        <label id="participantNameField" hidden>
+          Student / Child's Name (Participant)
+          <input type="text" name="participantName" placeholder="Enter student's name" />
+        </label>
+
+        <label>
+          Email Address
+          <input type="email" name="email" placeholder="you@example.com" required />
+        </label>
+
+        <label>
+          WhatsApp Number
+          <input type="tel" name="whatsapp" placeholder="+91 98765 43210" required />
+        </label>
+
+        <label class="consent-row">
+          <input type="checkbox" name="consent" required />
+          <span>I agree to receive masterclass joining details &amp; reminders via Email and WhatsApp, and accept the
+            Privacy Policy.</span>
+        </label>
+
+        <button type="submit" class="btn-primary full-width">Confirm Free Registration</button>
+      </form>
+
+      <div id="registerSuccess" class="register-success" hidden>
+        <div class="success-icon">✓</div>
+        <h4>You're Registered!</h4>
+        <p>Your free seat for the <strong>Life Purpose &amp; Career Clarity Masterclass</strong> is confirmed. Joining
+          details will be sent to your email and WhatsApp.</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="scripts/audiences-data.js"></script>
+  <script src="scripts/main.js"></script>
+</body>
+
+</html>
