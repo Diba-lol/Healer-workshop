@@ -1,0 +1,100 @@
+.contact-main {
+  max-width: 760px;
+  padding-top: 4rem;
+  padding-bottom: 5rem;
+}
+
+.contact-header {
+  text-align: center;
+  margin-bottom: 2.75rem;
+}
+
+.contact-title {
+  font-size: clamp(1.9rem, 4.4vw, 2.85rem);
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin: 1rem 0 0.75rem;
+}
+
+.contact-subtitle {
+  font-size: 1rem;
+  color: var(--body);
+  max-width: 48ch;
+  margin: 0 auto;
+}
+
+.contact-cards {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.contact-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 1.15rem;
+  padding: 1.65rem 1.75rem;
+  border-radius: 20px;
+  background: #ffffff;
+  border: var(--card-border);
+  box-shadow: var(--card-shadow);
+}
+
+.contact-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: rgba(124, 99, 246, 0.12);
+}
+
+.contact-icon svg {
+  width: 21px;
+  height: 21px;
+  fill: none;
+  stroke: var(--indigo);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.contact-info h2 {
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin: 0 0 0.35rem;
+  color: var(--ink);
+}
+
+.contact-desc {
+  font-size: 0.92rem;
+  color: var(--body);
+  margin: 0;
+}
+
+.contact-label {
+  font-size: 0.84rem;
+  font-weight: 800;
+  color: var(--ink);
+  margin: 1rem 0 0.25rem;
+}
+
+.contact-address {
+  font-style: normal;
+  font-size: 0.86rem;
+  line-height: 1.6;
+  color: var(--body);
+}
+
+.contact-email {
+  display: inline-block;
+  font-size: 0.96rem;
+  font-weight: 700;
+  color: var(--indigo);
+  text-decoration: none;
+}
+
+.contact-email:hover {
+  text-decoration: underline;
+}

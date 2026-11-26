@@ -1,319 +1,341 @@
-// ========================================================
-// HEALER – ENTRY SELECTOR, 5-AUDIENCE ENGINE & ANALYTICS
-// ========================================================
+/* ========================================================
+   HEALER WORKSHOP — COMPLETE INTERACTIONS & AUDIENCE SYNC
+   ======================================================== */
 
-// Anonymous visitor/session ID for analytics readiness
-function getVisitorId() {
-  let id = localStorage.getItem("healer_visitor_id");
-  if (!id) {
-    id = "vis_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 8);
-    localStorage.setItem("healer_visitor_id", id);
-  }
-  return id;
-}
-
-// Lightweight event tracker (ready to connect to backend / GA4)
-function trackEvent(eventName, payload = {}) {
+document.addEventListener("DOMContentLoaded", () => {
   const params = new URLSearchParams(window.location.search);
-  const event = {
-    event_id: "evt_" + Date.now().toString(36) + "_" + Math.random().toString(36).slice(2, 6),
-    event_name: eventName,
-    visitor_id: getVisitorId(),
-    timestamp: new Date().toISOString(),
-    source: params.get("utm_source") || "direct",
-    campaign: params.get("utm_campaign") || "none",
-    ...payload
+  const audienceKey = (params.get("audience") || "students").toLowerCase();
+
+  const store =
+    typeof AUDIENCES_DATA !== "undefined"
+      ? AUDIENCES_DATA
+      : typeof audiencesData !== "undefined"
+        ? audiencesData
+        : null;
+
+  const audience = store ? store[audienceKey] || store.students || null : null;
+
+  /* ------------------------------------------------------
+     1. SCROLL PROGRESS & REVEAL ANIMATIONS
+     ------------------------------------------------------ */
+  const progressBar = document.querySelector(".scroll-progress");
+  const updateProgress = () => {
+    if (!progressBar) return;
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const pct = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+    progressBar.style.width = `${Math.min(100, Math.max(0, pct))}%`;
   };
+  window.addEventListener("scroll", updateProgress, { passive: true });
+  updateProgress();
 
-  const log = JSON.parse(localStorage.getItem("healer_events_log") || "[]");
-  log.push(event);
-  localStorage.setItem("healer_events_log", JSON.stringify(log.slice(-50)));
-  // Ready for backend: fetch("/api/events", { method: "POST", body: JSON.stringify(event) })
-}
+  const reveals = document.querySelectorAll(".reveal");
+  if ("IntersectionObserver" in window && reveals.length > 0) {
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+            obs.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.08, rootMargin: "0px 0px -20px 0px" }
+    );
+    reveals.forEach((el) => observer.observe(el));
+  } else {
+    reveals.forEach((el) => el.classList.add("is-visible"));
+  }
 
-// ========================================================
-// PAGE 1: COMMON ENTRY PAGE (index.html)
-// ========================================================
-function initEntryPage() {
-  const cards = document.querySelectorAll(".identity-card");
-  const continueBtn = document.getElementById("continuePathBtn");
-  const hint = document.getElementById("selectionHint");
-  if (!cards.length || !continueBtn) return;
+  /* ------------------------------------------------------
+     2. SMART MOBILE STICKY CTA
+     ------------------------------------------------------ */
+  const stickyBar = document.querySelector(".mobile-sticky-cta");
+  const heroEl = document.querySelector(".hero-center");
+  const finalEl = document.querySelector(".final-cta-banner");
 
-  let selectedAudience = localStorage.getItem("healer_selected_identity") || "";
+  if (stickyBar && heroEl && finalEl && "IntersectionObserver" in window) {
+    let heroInView = true;
+    let finalInView = false;
 
-  function applySelection(key, isUserClick = false) {
-    selectedAudience = key;
-    cards.forEach(card => {
-      const match = card.dataset.audience === key;
-      card.classList.toggle("is-selected", match);
-      card.setAttribute("aria-checked", String(match));
+    const syncSticky = () => {
+      stickyBar.classList.toggle("is-visible", !heroInView && !finalInView);
+    };
+
+    const stickyObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.target === heroEl) heroInView = entry.isIntersecting;
+          if (entry.target === finalEl) finalInView = entry.isIntersecting;
+        });
+        syncSticky();
+      },
+      { threshold: 0.15 }
+    );
+
+    stickyObs.observe(heroEl);
+    stickyObs.observe(finalEl);
+  }
+
+  /* ------------------------------------------------------
+      3. ENTRY PAGE (index.html) PATH SELECTION
+      ------------------------------------------------------ */
+  const cards = Array.from(document.querySelectorAll(".identity-card"));
+  const nextPathBtn =
+    document.getElementById("discoverPathBtn") ||
+    document.querySelector(".entry-cta-wrap .btn-primary") ||
+    document.querySelector(".entry-cta-wrap button");
+  const hintEl = document.getElementById("selectionHint") || document.querySelector(".selection-hint");
+
+  if (cards.length > 0) {
+    let chosen = "";
+
+    const selectCard = (card) => {
+      cards.forEach((c) => {
+        c.classList.remove("is-selected");
+        c.setAttribute("aria-checked", "false");
+      });
+
+      card.classList.add("is-selected");
+      card.setAttribute("aria-checked", "true");
+
+      const headingText = card.querySelector("strong")?.textContent?.trim().toLowerCase() || "";
+      let inferredKey = "students";
+      if (headingText.includes("mid-career") || headingText.includes("professional")) {
+        inferredKey = "professionals";
+      } else if (headingText.includes("homemaker")) {
+        inferredKey = "homemakers";
+      } else if (headingText.includes("parent")) {
+        inferredKey = "parents";
+      } else if (headingText.includes("retired") || headingText.includes("senior")) {
+        inferredKey = "retired";
+      }
+
+      chosen =
+        card.dataset.audience ||
+        card.dataset.path ||
+        card.dataset.value ||
+        card.getAttribute("data-audience") ||
+        inferredKey;
+
+      if (nextPathBtn) {
+        nextPathBtn.disabled = false;
+        nextPathBtn.removeAttribute("disabled");
+      }
+
+      const label = card.querySelector("strong")?.textContent?.trim() || chosen;
+      if (hintEl) {
+        hintEl.textContent = `Selected: ${label} — click Discover My Path to continue.`;
+      }
+    };
+
+    cards.forEach((card) => {
+      card.style.cursor = "pointer";
+      card.addEventListener("click", (e) => {
+        e.preventDefault();
+        selectCard(card);
+      });
     });
 
-    if (selectedAudience && AUDIENCES_DATA[selectedAudience]) {
-      continueBtn.disabled = false;
-      hint.textContent = `Selected: ${AUDIENCES_DATA[selectedAudience].label} — click Discover My Path to continue.`;
-      if (isUserClick) {
-        localStorage.setItem("healer_selected_identity", selectedAudience);
-        trackEvent("identity_selected", { selected_identity: selectedAudience });
-      }
+    if (nextPathBtn) {
+      nextPathBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        const targetAudience = chosen || "students";
+        window.location.href = `workshop.html?audience=${encodeURIComponent(targetAudience)}`;
+      });
     }
   }
 
-  // Restore previous choice if user came back to change path
-  if (selectedAudience && AUDIENCES_DATA[selectedAudience]) {
-    applySelection(selectedAudience, false);
+  /* ------------------------------------------------------
+     4. AUDIENCE CONTENT HYDRATION (KEEPS ALL SECTIONS & IMAGES)
+     ------------------------------------------------------ */
+  if (audience) {
+    const heroTitle = document.querySelector(".hero-title");
+    const heroSub = document.querySelector(".hero-subtitle");
+    const editionPill = document.querySelector(".edition-pill");
+
+    if (typeof audience.heroTitle === "string" && audience.heroTitle.trim() && heroTitle) {
+      heroTitle.innerHTML = audience.heroTitle;
+    }
+    if (typeof audience.heroSubtitle === "string" && audience.heroSubtitle.trim() && heroSub) {
+      heroSub.textContent = audience.heroSubtitle;
+    }
+    if (typeof audience.badge === "string" && audience.badge.trim() && editionPill) {
+      editionPill.innerHTML = `<span class="live-dot"></span>${audience.badge}`;
+    }
+
+    // Update only text inside existing discovery cards so <img> elements remain in place
+    const discoveryCards = document.querySelectorAll("#discoveriesGrid .art-card");
+    if (Array.isArray(audience.discoveries) && discoveryCards.length > 0) {
+      audience.discoveries.slice(0, discoveryCards.length).forEach((item, idx) => {
+        if (!item) return;
+        const card = discoveryCards[idx];
+        const badgeEl = card.querySelector(".day-float-badge");
+        const titleEl = card.querySelector(".art-card-body h3");
+        const descEl = card.querySelector(".art-card-body p");
+        const imgEl = card.querySelector(".art-img");
+
+        if (badgeEl && item.badge) badgeEl.textContent = item.badge;
+        if (titleEl && item.title) titleEl.textContent = item.title;
+        if (descEl && (item.desc || item.description)) {
+          descEl.textContent = item.desc || item.description;
+        }
+        if (imgEl) {
+          const fallbackImg = `assets/discovery-${idx + 1}.png`;
+          const targetImg = item.img || item.image || fallbackImg;
+          if (!imgEl.getAttribute("src")) {
+            imgEl.setAttribute("src", targetImg);
+          }
+        }
+      });
+    }
   }
 
-  cards.forEach(card => {
-    card.addEventListener("click", () => applySelection(card.dataset.audience, true));
-  });
+  /* ------------------------------------------------------
+     5. 10-DAY BLUEPRINT VAULT SWITCHER
+     ------------------------------------------------------ */
+  const defaultDays = [
+    { day: 1, tag: "Days 1–5 · Discover Who You Are", short: "Driving Force", title: "Day 1 — Discover your driving force", desc: "Uncover the core inner motivation that energises your best work and keeps you moving forward." },
+    { day: 2, tag: "Days 1–5 · Discover Who You Are", short: "Flow & Genius", title: "Day 2 — Unlock your flow state and zone of genius", desc: "Identify the activities where time disappears and your natural talent performs effortlessly." },
+    { day: 3, tag: "Days 1–5 · Discover Who You Are", short: "Core Values", title: "Day 3 — Define your non-negotiable core values", desc: "Clarify what matters most so your career choices feel authentic rather than borrowed." },
+    { day: 4, tag: "Days 1–5 · Discover Who You Are", short: "Personality Fit", title: "Day 4 — Map your personality and work style", desc: "See which environments, teams, and problem types help you thrive long-term." },
+    { day: 5, tag: "Days 1–5 · Discover Who You Are", short: "Strengths Audit", title: "Day 5 — Audit your hidden strengths and signals", desc: "Connect everyday wins and feedback into a clear picture of what you do well." },
+    { day: 6, tag: "Days 6–8 · Align Purpose & Direction", short: "Purpose Bridge", title: "Day 6 — Bridge your strengths with real-world problems", desc: "See how your natural gifts translate into meaningful paths and roles." },
+    { day: 7, tag: "Days 6–8 · Align Purpose & Direction", short: "Career Options", title: "Day 7 — Filter high-fit career directions", desc: "Narrow noisy options down to paths that match your curiosity, lifestyle, and growth goals." },
+    { day: 8, tag: "Days 6–8 · Align Purpose & Direction", short: "Life Vision", title: "Day 8 — Shape your 3-to-5-year life vision", desc: "Align your career choice with the kind of day-to-day life and freedom you want." },
+    { day: 9, tag: "Days 9–10 · Build Your Roadmap", short: "No. 1 Blueprint", title: "Day 9 — Lock in your No. 1 career blueprint", desc: "Commit to a clear primary direction with confidence instead of second-guessing." },
+    { day: 10, tag: "Days 9–10 · Build Your Roadmap", short: "Action Roadmap", title: "Day 10 — Build your 30-day action roadmap", desc: "Turn clarity into concrete weekly steps, skills to explore, and milestones to start right away." }
+  ];
 
-  continueBtn.addEventListener("click", () => {
-    if (!selectedAudience) return;
-    const currentParams = new URLSearchParams(window.location.search);
-    currentParams.set("audience", selectedAudience);
-    window.location.href = `workshop.html?${currentParams.toString()}`;
-  });
-}
+  const daysList =
+    audience && Array.isArray(audience.days) && audience.days.length === 10
+      ? audience.days
+      : defaultDays;
 
-// ========================================================
-// PAGE 2: SHARED 5-AUDIENCE LANDING PAGE (workshop.html)
-// ========================================================
-function initWorkshopPage() {
-  const params = new URLSearchParams(window.location.search);
-  const urlAudience = params.get("audience");
-  const savedAudience = localStorage.getItem("healer_selected_identity");
-  const key = AUDIENCES_DATA[urlAudience] ? urlAudience : (AUDIENCES_DATA[savedAudience] ? savedAudience : "students");
-  const data = AUDIENCES_DATA[key];
-
-  // Track landing view (keep selected identity separate from inferred page audience)
-  trackEvent("landing_view", {
-    landing_audience: key,
-    selected_identity: savedAudience || null,
-    is_direct_visit: !savedAudience
-  });
-
-  document.title = data.pageTitle;
-
-  // 01. Hero & Editable Session Metadata
-  document.getElementById("heroBadge").textContent = data.heroBadge;
-  document.getElementById("heroTitle").innerHTML = data.heroTitle;
-  document.getElementById("heroSubtitle").textContent = data.heroSubtitle;
-  document.getElementById("heroCtaBtn").textContent = data.heroCta;
-  document.getElementById("metaDate").textContent = WORKSHOP_CONFIG.date;
-  document.getElementById("metaTime").textContent = WORKSHOP_CONFIG.time;
-  document.getElementById("metaDuration").textContent = WORKSHOP_CONFIG.duration;
-
-  // 02. Is This You?
-  document.getElementById("painPointsList").innerHTML = data.painPoints
-    .map(item => `<li><span class="pain-check" aria-hidden="true">✦</span><span>${item}</span></li>`)
-    .join("");
-  document.getElementById("painPointsClosing").textContent = data.painClosing;
-
-  // 03. Three Powerful Discoveries
-  document.getElementById("discoveriesGrid").innerHTML = data.discoveries.map((d, i) => `
-    <article class="art-card reveal" style="--delay: ${i * 120}ms">
-      <div class="art-media-box art-fallback-${i + 1}">
-        <span class="day-float-badge">${d.badge}</span>
-        <img src="${d.img}" alt="${d.title}" class="art-img" onerror="this.style.display='none';" />
-        <div class="art-orb orb-a" aria-hidden="true"></div>
-        <div class="art-orb orb-b" aria-hidden="true"></div>
-      </div>
-      <div class="art-card-body">
-        <h3>${d.title}</h3>
-        <p>${d.desc}</p>
-      </div>
-    </article>
-  `).join("");
-
-  // 04. 10-Day Blueprint Interactive Vault
-  document.getElementById("challengeSub").textContent = data.challengeSub;
-  initTenDayVault(data.days);
-
-  // 05 & 06. Outcomes, Different & Who Should Attend
-  document.getElementById("outcomesHeading").textContent = data.outcomesHeading;
-  document.getElementById("outcomesList").innerHTML = data.outcomes
-    .map(item => `<li><span class="outcome-dot" aria-hidden="true">✓</span><span>${item}</span></li>`)
-    .join("");
-  document.getElementById("outcomesNote").textContent = data.outcomesNote;
-  document.getElementById("differentText").textContent = data.differentText;
-  document.getElementById("whoShouldAttend").textContent = data.whoShouldAttend;
-
-  // 07. Testimonials Subtitle
-  document.getElementById("testimonialsSub").textContent = data.testimonialsSub;
-
-  // 10. FAQ Accordion
-  renderFaqs(data.faqs);
-
-  // 11. Final CTA
-  document.getElementById("finalCtaHeading").textContent = data.finalHeading;
-  document.getElementById("finalCtaSub").textContent = data.finalSub;
-
-  // Registration Modal (tailored for Parents vs Individual)
-  initRegisterModal(data);
-  initScrollProgress();
-  initScrollReveal();
-}
-
-function initTenDayVault(days) {
-  const grid = document.getElementById("dayPillsGrid");
-  const badge = document.getElementById("stageDayBadge");
-  const phase = document.getElementById("stagePhase");
-  const title = document.getElementById("stageTitle");
-  const desc = document.getElementById("stageDesc");
-  const content = document.getElementById("stageContent");
-  const fill = document.getElementById("stageProgressFill");
+  const pillsGrid = document.getElementById("secretPillsGrid");
+  const stageBadge = document.getElementById("stageDayBadge");
+  const stageTag = document.getElementById("stageTag");
+  const stageTitle = document.getElementById("stageTitle");
+  const stageDesc = document.getElementById("stageDesc");
+  const stageFill = document.getElementById("stageProgressFill");
   const prevBtn = document.getElementById("prevDayBtn");
   const nextBtn = document.getElementById("nextDayBtn");
-  if (!grid) return;
+  const stageNext = document.getElementById("stageNextCta");
 
-  let activeIndex = 0;
+  let currentDayIdx = 0;
 
-  grid.innerHTML = days.map((item, idx) => {
-    const num = String(idx + 1).padStart(2, "0");
-    return `
-      <button type="button" class="secret-pill-btn ${idx === 0 ? "is-active" : ""}" data-index="${idx}" role="tab" aria-selected="${idx === 0}">
-        <span class="pill-num">D${num}</span>
-        <span class="pill-short">${item.short}</span>
-      </button>
-    `;
-  }).join("");
+  const showDay = (idx) => {
+    const safeIdx = ((idx % daysList.length) + daysList.length) % daysList.length;
+    currentDayIdx = safeIdx;
+    const d = daysList[safeIdx] || defaultDays[safeIdx];
+    const num = d.day || safeIdx + 1;
 
-  const pills = grid.querySelectorAll(".secret-pill-btn");
+    if (stageBadge) stageBadge.textContent = `DAY ${String(num).padStart(2, "0")} OF 10`;
+    if (stageTag && d.tag) stageTag.textContent = d.tag;
+    if (stageTitle && d.title) stageTitle.textContent = d.title;
+    if (stageDesc && d.desc) stageDesc.textContent = d.desc;
+    if (stageFill) stageFill.style.width = `${((safeIdx + 1) / daysList.length) * 100}%`;
 
-  function showDay(index) {
-    activeIndex = (index + days.length) % days.length;
-    const item = days[activeIndex];
-    const num = String(activeIndex + 1).padStart(2, "0");
+    if (pillsGrid) {
+      pillsGrid.querySelectorAll(".secret-pill-btn").forEach((btn, i) => {
+        const active = i === safeIdx;
+        btn.classList.toggle("is-active", active);
+        btn.setAttribute("aria-pressed", String(active));
+      });
+    }
+  };
 
-    pills.forEach((btn, i) => {
-      const active = i === activeIndex;
-      btn.classList.toggle("is-active", active);
-      btn.setAttribute("aria-selected", String(active));
+  if (pillsGrid) {
+    pillsGrid.innerHTML = daysList
+      .map((d, i) => {
+        const num = String((d && d.day) || i + 1).padStart(2, "0");
+        const label = (d && d.short) || `Day ${num}`;
+        return `
+          <button type="button" class="secret-pill-btn ${i === 0 ? "is-active" : ""}" aria-pressed="${i === 0}">
+            <span class="pill-num">D${num}</span>
+            <span class="pill-short">${label}</span>
+          </button>
+        `;
+      })
+      .join("");
+
+    pillsGrid.querySelectorAll(".secret-pill-btn").forEach((btn, i) => {
+      btn.addEventListener("click", () => showDay(i));
     });
-
-    badge.textContent = `DAY ${num} OF 10`;
-    phase.textContent = item.phase;
-    title.textContent = item.title;
-    desc.textContent = item.desc;
-    fill.style.width = `${((activeIndex + 1) / days.length) * 100}%`;
-
-    content.style.animation = "none";
-    content.offsetHeight;
-    content.style.animation = "";
   }
 
-  pills.forEach(btn => btn.addEventListener("click", () => showDay(Number(btn.dataset.index))));
-  prevBtn?.addEventListener("click", () => showDay(activeIndex - 1));
-  nextBtn?.addEventListener("click", () => showDay(activeIndex + 1));
-  showDay(0);
-}
+  prevBtn?.addEventListener("click", () => showDay(currentDayIdx - 1));
+  nextBtn?.addEventListener("click", () => showDay(currentDayIdx + 1));
+  stageNext?.addEventListener("click", () => showDay(currentDayIdx + 1));
 
-function renderFaqs(faqs) {
-  const list = document.getElementById("faqList");
-  if (!list) return;
+  if (stageBadge || stageTitle) showDay(0);
 
-  list.innerHTML = faqs.map((item, idx) => `
-    <article class="faq-item ${idx === 0 ? "is-open" : ""}">
-      <button type="button" class="faq-trigger" aria-expanded="${idx === 0}">
-        <span>${item.q}</span>
-        <span class="faq-plus" aria-hidden="true">+</span>
-      </button>
-      <div class="faq-body" style="${idx === 0 ? "max-height: 200px;" : ""}">
-        <div class="faq-body-inner">${item.a}</div>
-      </div>
-    </article>
-  `).join("");
-
-  list.querySelectorAll(".faq-trigger").forEach(btn => {
+  /* ------------------------------------------------------
+     6. FAQ ACCORDION
+     ------------------------------------------------------ */
+  document.querySelectorAll(".faq-trigger").forEach((btn) => {
     btn.addEventListener("click", () => {
-      const card = btn.closest(".faq-item");
-      const body = card.querySelector(".faq-body");
-      const isOpen = card.classList.contains("is-open");
+      const item = btn.closest(".faq-item");
+      const panel = item?.querySelector(".faq-body");
+      if (!item || !panel) return;
 
-      list.querySelectorAll(".faq-item").forEach(other => {
-        other.classList.remove("is-open");
-        other.querySelector(".faq-trigger").setAttribute("aria-expanded", "false");
-        other.querySelector(".faq-body").style.maxHeight = null;
-      });
-
-      if (!isOpen) {
-        card.classList.add("is-open");
-        btn.setAttribute("aria-expanded", "true");
-        body.style.maxHeight = body.scrollHeight + "px";
-      }
+      const open = item.classList.contains("is-open");
+      item.classList.toggle("is-open", !open);
+      btn.setAttribute("aria-expanded", String(!open));
+      panel.style.maxHeight = !open ? `${panel.scrollHeight}px` : "0px";
     });
   });
-}
 
-function initRegisterModal(audienceData) {
+  /* ------------------------------------------------------
+     7. REGISTRATION MODAL
+     ------------------------------------------------------ */
   const modal = document.getElementById("registerModal");
   const closeBtn = document.getElementById("closeModalBtn");
   const form = document.getElementById("registerForm");
   const successBox = document.getElementById("registerSuccess");
-  const audienceTag = document.getElementById("modalAudienceTag");
-  const nameLabel = document.getElementById("nameFieldLabel");
-  const participantField = document.getElementById("participantNameField");
-  if (!modal) return;
+  const resetBtn = document.getElementById("resetRegisterBtn");
 
-  audienceTag.textContent = `Free Masterclass · ${audienceData.label}`;
-  if (audienceData.isParentFlow) {
-    nameLabel.textContent = "Parent / Guardian Full Name";
-    participantField.hidden = false;
-  } else {
-    nameLabel.textContent = "Full Name";
-    participantField.hidden = true;
-  }
-
-  const openModal = () => {
+  const openRegModal = () => {
+    if (!modal) return;
     modal.classList.add("is-open");
     modal.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
   };
-  const closeModal = () => {
+
+  const closeRegModal = () => {
+    if (!modal) return;
     modal.classList.remove("is-open");
     modal.setAttribute("aria-hidden", "true");
+    document.body.style.overflow = "";
   };
 
-  document.querySelectorAll(".open-register-modal").forEach(btn => btn.addEventListener("click", openModal));
-  closeBtn?.addEventListener("click", closeModal);
-  modal.addEventListener("click", e => { if (e.target === modal) closeModal(); });
-
-  form?.addEventListener("submit", e => {
-    e.preventDefault();
-    trackEvent("masterclass_registered", {
-      audience_tag: audienceData.key,
-      is_parent_registration: audienceData.isParentFlow
+  document.querySelectorAll(".open-modal-btn").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      e.preventDefault();
+      openRegModal();
     });
-    form.hidden = true;
-    successBox.hidden = false;
   });
-}
 
-function initScrollProgress() {
-  const bar = document.getElementById("scrollProgress");
-  if (!bar) return;
-  window.addEventListener("scroll", () => {
-    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-    bar.style.width = docHeight > 0 ? `${(window.scrollY / docHeight) * 100}%` : "0%";
-  }, { passive: true });
-}
+  closeBtn?.addEventListener("click", closeRegModal);
+  modal?.addEventListener("click", (e) => {
+    if (e.target === modal) closeRegModal();
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modal?.classList.contains("is-open")) closeRegModal();
+  });
 
-function initScrollReveal() {
-  const els = document.querySelectorAll(".reveal");
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add("is-visible");
-      observer.unobserve(entry.target);
-    });
-  }, { threshold: 0.12 });
-  els.forEach(el => observer.observe(el));
-}
+  form?.addEventListener("submit", (e) => {
+    e.preventDefault();
+    if (successBox) {
+      form.hidden = true;
+      successBox.hidden = false;
+    }
+  });
 
-// Boot based on current page
-if (document.body.dataset.page === "entry") {
-  initEntryPage();
-} else if (document.body.dataset.page === "workshop") {
-  initWorkshopPage();
-}
+  resetBtn?.addEventListener("click", () => {
+    if (form && successBox) {
+      form.reset();
+      successBox.hidden = true;
+      form.hidden = false;
+    }
+  });
+});

@@ -98,23 +98,23 @@
   box-shadow: 0 34px 70px -26px rgba(15, 23, 42, 0.36);
 }
 
-.hero-media-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
-
 .media-placeholder {
   width: 100%;
   height: 100%;
+  display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 1rem;
-  color: rgba(241, 245, 249, 0.85);
+  color: rgba(241, 245, 249, 0.88);
   padding: 1.5rem;
   text-align: center;
+}
+
+.placeholder-caption {
+  margin: 0;
+  font-size: 0.92rem;
+  color: rgba(226, 232, 240, 0.88);
 }
 
 .play-ring {
@@ -215,7 +215,7 @@
   color: var(--indigo);
 }
 
-/* 3 Discoveries */
+/* 3 Discoveries Cards & Images */
 .art-cards-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -239,8 +239,10 @@
 
 .art-media-box {
   position: relative;
+  width: 100%;
   height: 190px;
   overflow: hidden;
+  background: linear-gradient(135deg, #131c3c 0%, #3b2d8a 55%, #38bdf8 100%);
 }
 
 .art-fallback-1 {
@@ -261,47 +263,25 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center;
   display: block;
-}
-
-.art-orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(26px);
-  opacity: 0.6;
-  z-index: 1;
-}
-
-.orb-a {
-  width: 120px;
-  height: 120px;
-  top: -20px;
-  right: -20px;
-  background: #38bdf8;
-}
-
-.orb-b {
-  width: 130px;
-  height: 130px;
-  bottom: -25px;
-  left: -20px;
-  background: #a78bfa;
 }
 
 .day-float-badge {
   position: absolute;
-  top: 1rem;
-  left: 1rem;
+  top: 0.85rem;
+  left: 0.85rem;
   z-index: 3;
   font-size: 0.7rem;
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #ffffff;
-  background: rgba(13, 21, 42, 0.7);
+  background: rgba(13, 21, 42, 0.72);
   backdrop-filter: blur(8px);
   padding: 0.32rem 0.8rem;
   border-radius: 999px;
+  pointer-events: none;
 }
 
 .art-card-body {
@@ -685,12 +665,11 @@
   background: var(--grad);
 }
 
-.mentor-img,
 .avatar-placeholder {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  object-fit: cover;
+  display: grid;
   background: #131f3f;
   place-items: center;
   font-weight: 800;

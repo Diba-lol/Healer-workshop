@@ -342,3 +342,76 @@ body {
 .footer-links a:hover {
   color: var(--indigo);
 }
+
+/* Official Healer Footer */
+.healer-footer {
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  padding: 3rem 0 2.5rem;
+  margin-top: 4rem;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.footer-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1.75rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.07);
+}
+
+.footer-tagline {
+  margin: 0.55rem 0 0;
+  font-size: 0.88rem;
+  color: var(--body);
+}
+
+.footer-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.35rem;
+  align-items: center;
+}
+
+.footer-nav a {
+  text-decoration: none;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--body);
+}
+
+.footer-nav a:hover {
+  color: var(--indigo);
+}
+
+.footer-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding-top: 1.5rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+}
+
+.footer-legal p {
+  margin: 0.15rem 0;
+}
+
+.footer-legal a {
+  color: var(--indigo);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.footer-legal a:hover {
+  text-decoration: underline;
+}
+
+.footer-made {
+  margin: 0;
+  font-weight: 600;
+  color: var(--body);
+}

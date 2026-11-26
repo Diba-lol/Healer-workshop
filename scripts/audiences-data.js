@@ -142,9 +142,9 @@ const AUDIENCES_DATA = {
     ],
     painClosing: "Your dreams deserve space in your life too.",
     discoveries: [
-      { badge: "Discovery 01", title: "Discover Who You Are", desc: "Explore your natural talents, interests, values and personality.", img: "assets/day1-clarity.jpg" },
-      { badge: "Discovery 02", title: "Discover What You Are Meant to Do", desc: "Learn how to connect your life purpose and career possibilities.", img: "assets/day2-overthinking.jpg" },
-      { badge: "Discovery 03", title: "Discover How to Get There", desc: "Understand how to begin creating a practical roadmap.", img: "assets/day3-blueprint.jpg" }
+      { badge: "Discovery 01", title: "Discover Who You Are", desc: "Explore your natural talents, interests, values and personality.", img: "assets/discovery-1.png" },
+      { badge: "Discovery 02", title: "Discover What You Are Meant to Do", desc: "Learn how to connect your life purpose and career possibilities.", img: "assets/discovery-2.png" },
+      { badge: "Discovery 03", title: "Discover How to Get There", desc: "Understand how to begin creating a practical roadmap.", img: "assets/discovery-3.png" }
     ],
     challengeSub: "10 Days. One Clear Career Direction. Just 30 minutes a day, except one 60-minute session (5.5 hours total).",
     days: STANDARD_10_DAYS,
